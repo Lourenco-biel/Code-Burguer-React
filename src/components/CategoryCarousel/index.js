@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Carousel from 'react-elastic-carousel'
+import { useNavigate } from 'react-router-dom'
 
 import CategoryLogo from '../../assets/category.png'
 import api from '../../services/api'
@@ -7,6 +8,7 @@ import * as C from './style'
 
 function CategoryCarousel() {
   const [category, setCategory] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function getCategory() {
@@ -34,7 +36,13 @@ function CategoryCarousel() {
       >
         {category?.map((category) => (
           <C.ContainerItems key={category.id}>
-            <C.Image src={category.url} alt="foto-da-categoria" />
+            <C.Image
+              src={category.url}
+              alt="foto-da-categoria"
+              onClick={() => {
+                navigate('/Produtos', { state: { categoryId: category.id } })
+              }}
+            />
             <C.Button to="/Produtos" state={{ categoryId: category.id }}>
               {category.name}
             </C.Button>

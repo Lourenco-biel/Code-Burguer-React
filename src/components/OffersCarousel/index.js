@@ -45,7 +45,14 @@ function OffersCarousel() {
       >
         {offers?.map((product) => (
           <C.ContainerItems key={product.id}>
-            <C.Image src={product.url} alt="foto-do-produto" />
+            <C.Image
+              src={product.url}
+              alt="foto-do-produto"
+              onClick={() => {
+                putProductInCart(product)
+                navigate('/Cart')
+              }}
+            />
             <p>{product.name}</p>
             <p>{product.formatedPrice}</p>
             <C.Button

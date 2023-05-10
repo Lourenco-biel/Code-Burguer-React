@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { useCart } from '../../hooks/CartContext'
@@ -10,7 +11,7 @@ import * as C from './style'
 export default function CartResume() {
   const [finalPrice, setFinalPrice] = useState(0)
   const [deliveryTax, setDeliveryTax] = useState(5)
-
+  const navigate = useNavigate()
   const { cartProducts } = useCart()
 
   useEffect(() => {
@@ -24,12 +25,16 @@ export default function CartResume() {
     const order = cartProducts.map((product) => {
       return { id: product.id, quantity: product.quantity }
     })
-
-    await toast.promise(api.post('orders', { products: order }), {
-      pending: 'Realizando seu pedido!',
-      success: 'Pedido realizado com sucesso',
-      error: 'Falha ao tentar realizar seu pedido, tente novamente!'
-    })
+    if (order.length <= 0) {
+      toast.error('Carrinho vazio, inclusa um item!')
+    } else {
+      await toast.promise(api.post('orders', { products: order }), {
+        pending: 'Realizando seu pedido!',
+        success: 'Pedido realizado com sucesso',
+        error: 'Falha ao tentar realizar seu pedido, tente novamente!'
+      })
+      navigate('/')
+    }
   }
   return (
     <div>
@@ -48,7 +53,9 @@ export default function CartResume() {
       </C.Container>
       <Button
         style={{ width: '100%', marginTop: '30px !important' }}
-        onClick={submitOrder}
+        onClick={() => {
+          submitOrder()
+        }}
       >
         Finalizar pedido
       </Button>

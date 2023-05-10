@@ -20,7 +20,7 @@ export function CartItems() {
         cartProducts.map((product) => (
           <C.Body key={product.id}>
             <img src={product.url} />
-            <p>{product.name}</p>
+            <p style={{ width: '100px', maxWidth: '100px' }}>{product.name}</p>
             <p>{formatedCurrency(product.price)}</p>
             <C.QuantityContainer>
               <button onClick={() => decreaseProducts(product.id)}>-</button>

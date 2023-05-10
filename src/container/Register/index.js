@@ -100,7 +100,7 @@ const Register = () => {
           />
           <ErrorMenssage>{errors.confirmPassword?.message}</ErrorMenssage>
           <Button type="submit" style={{ marginTop: 25, marginBottom: 25 }}>
-            Entrar
+            Cadastrar
           </Button>
         </form>
         <SinginLink>

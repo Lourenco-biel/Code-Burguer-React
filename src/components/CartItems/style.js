@@ -24,6 +24,7 @@ export const Body = styled.div`
   grid-template-columns: repeat(5, 1fr);
   padding: 10px;
   width: max-content;
+  align-items: center;
   grid-gap: 10px 15px;
 
   img {
