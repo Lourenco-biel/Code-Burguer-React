@@ -1,5 +1,5 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import cart from '../../assets/cart.png'
 import User from '../../assets/user.png'
@@ -9,13 +9,24 @@ import * as C from './style'
 export function Header() {
   const navigate = useNavigate()
   const { logout, userData } = useUser()
+  const location = useLocation()
+
+  useEffect(() => {
+    console.log('oie', location)
+  }, [location])
   return (
     <C.Container>
       <C.ContainerLeft>
-        <C.PageLink onClick={() => navigate('/')} isActive={'' === '/'}>
+        <C.PageLink
+          onClick={() => navigate('/')}
+          isActive={location.pathname === '/'}
+        >
           Home
         </C.PageLink>
-        <C.PageLink onClick={() => navigate('/Produtos')}>
+        <C.PageLink
+          onClick={() => navigate('/Produtos')}
+          isActive={location.pathname === '/Produtos'}
+        >
           Ver produto
         </C.PageLink>
       </C.ContainerLeft>

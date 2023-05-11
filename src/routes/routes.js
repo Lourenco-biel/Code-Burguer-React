@@ -2,15 +2,14 @@ import React, { useEffect } from 'react'
 import {
   createBrowserRouter,
   RouterProvider,
-  Navigate,
   useNavigate
 } from 'react-router-dom'
 
+import { AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import { Header } from '../components/Header'
 import Admin from '../container/Admin'
-import ListProducts from '../container/Admin/ListProducts'
 import Cart from '../container/Cart'
 import Home from '../container/Home'
 import Login from '../container/Login'
@@ -68,7 +67,31 @@ export default function MyRoutes() {
       )
     },
     {
+      path: '/Listar-categorias',
+      element: (
+        <PrivateRoute isAdmin={true}>
+          <Admin />
+        </PrivateRoute>
+      )
+    },
+    {
       path: '/Novo-produto',
+      element: (
+        <PrivateRoute isAdmin={true}>
+          <Admin />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: '/Nova-categoria',
+      element: (
+        <PrivateRoute isAdmin={true}>
+          <Admin />
+        </PrivateRoute>
+      )
+    },
+    {
+      path: '/Editar-categoria',
       element: (
         <PrivateRoute isAdmin={true}>
           <Admin />
@@ -84,7 +107,11 @@ export default function MyRoutes() {
       )
     }
   ])
-  return <RouterProvider router={router} />
+  return (
+    <AnimatePresence initial={false}>
+      <RouterProvider router={router} />{' '}
+    </AnimatePresence>
+  )
 }
 
 function PrivateRoute({ children, isAdmin }) {

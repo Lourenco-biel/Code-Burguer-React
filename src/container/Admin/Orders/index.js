@@ -13,6 +13,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import { motion } from 'framer-motion'
 
 import api from '../../../services/api'
 import formatDate from '../../../utils/formatData'
@@ -73,41 +74,51 @@ export default function Orders() {
   }
 
   return (
-    <C.Container>
-      <C.Menu>
-        {status?.map((status) => (
-          <C.LinkMenu
-            key={status.id}
-            onClick={() => handleStatus(status)}
-            isActiveStatus={activeStatus === status.id}
-          >
-            {status.label}
-          </C.LinkMenu>
-        ))}
-      </C.Menu>
-      <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Pedido</TableCell>
-              <TableCell>Cliente</TableCell>
-              <TableCell>Data do pedido</TableCell>
-              <TableCell>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <Row
-                key={row.orderId}
-                row={row}
-                orders={orders}
-                setOrders={setOrders}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>{' '}
-    </C.Container>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        filter: 'blur(0px)',
+        transition: { duration: 0.4 }
+      }}
+      exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
+    >
+      <C.Container>
+        <C.Menu>
+          {status?.map((status) => (
+            <C.LinkMenu
+              key={status.id}
+              onClick={() => handleStatus(status)}
+              isActiveStatus={activeStatus === status.id}
+            >
+              {status.label}
+            </C.LinkMenu>
+          ))}
+        </C.Menu>
+        <TableContainer component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell>Pedido</TableCell>
+                <TableCell>Cliente</TableCell>
+                <TableCell>Data do pedido</TableCell>
+                <TableCell>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <Row
+                  key={row.orderId}
+                  row={row}
+                  orders={orders}
+                  setOrders={setOrders}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>{' '}
+      </C.Container>
+    </motion.div>
   )
 }

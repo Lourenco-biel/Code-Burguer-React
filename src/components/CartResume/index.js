@@ -27,6 +27,7 @@ export default function CartResume() {
     })
     if (order.length <= 0) {
       toast.error('Carrinho vazio, inclusa um item!')
+      navigate('/Produtos')
     } else {
       await toast.promise(api.post('orders', { products: order }), {
         pending: 'Realizando seu pedido!',

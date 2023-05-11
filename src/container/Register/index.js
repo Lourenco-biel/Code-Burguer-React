@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { yupResolver } from '@hookform/resolvers/yup'
+import { motion } from 'framer-motion'
 import * as Yup from 'yup'
 
 import Logo from '../../assets/logo.svg'
@@ -66,51 +67,63 @@ const Register = () => {
   }
 
   return (
-    <Container>
-      <LoginImg src={registerImage} alt="resgister image" />
-      <ContainerItens>
-        <img src={Logo} alt="logo" />
-        <h1>Cadastre-se</h1>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Label error={errors.name?.message}>Nome</Label>
-          <Input
-            type="text"
-            {...register('name')}
-            error={errors.name?.message}
-          />
-          <Label error={errors.email?.message}>Email</Label>
-          <Input
-            type="email"
-            {...register('email')}
-            error={errors.email?.message}
-          />
-          <ErrorMenssage>{errors.email?.message}</ErrorMenssage>
-          <Label error={errors.password?.message}>Senha</Label>
-          <Input
-            type="password"
-            {...register('password')}
-            error={errors.password?.message}
-          />
-          <ErrorMenssage>{errors.password?.message}</ErrorMenssage>
-          <Label error={errors.confirmPassword?.message}>Confirmar Senha</Label>
-          <Input
-            type="password"
-            {...register('confirmPassword')}
-            error={errors.confirmPassword?.message}
-          />
-          <ErrorMenssage>{errors.confirmPassword?.message}</ErrorMenssage>
-          <Button type="submit" style={{ marginTop: 25, marginBottom: 25 }}>
-            Cadastrar
-          </Button>
-        </form>
-        <SinginLink>
-          Já possui conta?{' '}
-          <Link style={{ color: 'white' }} to="/Login">
-            Sing In
-          </Link>
-        </SinginLink>
-      </ContainerItens>
-    </Container>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        filter: 'blur(0px)',
+        transition: { duration: 0.4 }
+      }}
+      exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
+    >
+      <Container>
+        <LoginImg src={registerImage} alt="resgister image" />
+        <ContainerItens>
+          <img src={Logo} alt="logo" />
+          <h1>Cadastre-se</h1>
+          <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <Label error={errors.name?.message}>Nome</Label>
+            <Input
+              type="text"
+              {...register('name')}
+              error={errors.name?.message}
+            />
+            <Label error={errors.email?.message}>Email</Label>
+            <Input
+              type="email"
+              {...register('email')}
+              error={errors.email?.message}
+            />
+            <ErrorMenssage>{errors.email?.message}</ErrorMenssage>
+            <Label error={errors.password?.message}>Senha</Label>
+            <Input
+              type="password"
+              {...register('password')}
+              error={errors.password?.message}
+            />
+            <ErrorMenssage>{errors.password?.message}</ErrorMenssage>
+            <Label error={errors.confirmPassword?.message}>
+              Confirmar Senha
+            </Label>
+            <Input
+              type="password"
+              {...register('confirmPassword')}
+              error={errors.confirmPassword?.message}
+            />
+            <ErrorMenssage>{errors.confirmPassword?.message}</ErrorMenssage>
+            <Button type="submit" style={{ marginTop: 25, marginBottom: 25 }}>
+              Cadastrar
+            </Button>
+          </form>
+          <SinginLink>
+            Já possui conta?{' '}
+            <Link style={{ color: 'white' }} to="/Login">
+              Sing In
+            </Link>
+          </SinginLink>
+        </ContainerItens>
+      </Container>
+    </motion.div>
   )
 }
 

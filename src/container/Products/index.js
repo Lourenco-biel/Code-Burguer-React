@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import { motion } from 'framer-motion'
+
 import productsLogo from '../../assets/products-logo.svg'
 import CardProduct from '../../components/CardProduct'
 import api from '../../services/api'
@@ -47,26 +49,36 @@ function Products() {
     }
   }, [activeCategories, products])
   return (
-    <C.Container>
-      <C.ProductsImg src={productsLogo} alt="logo-do-produto" />
-      <C.CategoriesMenu>
-        {categories?.map((category) => (
-          <C.CategoryButton
-            type="button"
-            key={category.id}
-            isActiveCategories={activeCategories === category.id}
-            onClick={() => setActiveCategories(category.id)}
-          >
-            {category.name}
-          </C.CategoryButton>
-        ))}
-      </C.CategoriesMenu>
-      <C.ProductsContainer>
-        {filteredProducts?.map((product) => (
-          <CardProduct key={product.id} product={product} />
-        ))}
-      </C.ProductsContainer>
-    </C.Container>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+        filter: 'blur(0px)',
+        transition: { duration: 0.4 }
+      }}
+      exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
+    >
+      <C.Container>
+        <C.ProductsImg src={productsLogo} alt="logo-do-produto" />
+        <C.CategoriesMenu>
+          {categories?.map((category) => (
+            <C.CategoryButton
+              type="button"
+              key={category.id}
+              isActiveCategories={activeCategories === category.id}
+              onClick={() => setActiveCategories(category.id)}
+            >
+              {category.name}
+            </C.CategoryButton>
+          ))}
+        </C.CategoriesMenu>
+        <C.ProductsContainer>
+          {filteredProducts?.map((product) => (
+            <CardProduct key={product.id} product={product} />
+          ))}
+        </C.ProductsContainer>
+      </C.Container>
+    </motion.div>
   )
 }
 

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -14,29 +12,28 @@ import TableRow from '@mui/material/TableRow'
 import { motion } from 'framer-motion'
 
 import api from '../../../services/api'
-import formatCurrency from '../../../utils/formatCurrency'
 import * as C from './style'
 
-function ListProducts() {
-  const [products, setProducts] = useState([])
+function ListCategories() {
+  const [categories, setCategories] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
-    getProducts()
+    getCategories()
   }, [])
 
-  async function getProducts() {
-    const { data } = await api.get('products')
-    setProducts(data)
+  async function getCategories() {
+    const { data } = await api.get('categories')
+    setCategories(data)
   }
 
-  const deleteProduct = async (id) => {
-    await toast.promise(api.delete(`products/${id}`), {
-      pending: 'Deletando o produto',
-      success: 'Produto deletado com sucesso',
-      error: 'Falha ao deletar o produto'
+  const deleteCategory = async (id) => {
+    await toast.promise(api.delete(`categories/${id}`), {
+      pending: 'Deletando a categoria',
+      success: 'Categoria deletada com sucesso',
+      error: 'Falha ao deletar a categoria'
     })
-    getProducts()
+    getCategories()
   }
 
   return (
@@ -55,46 +52,34 @@ function ListProducts() {
             <TableHead>
               <TableRow>
                 <TableCell>Nome</TableCell>
-                <TableCell>Preço</TableCell>
-                <TableCell align="center">Produto em Oferta</TableCell>
-                <TableCell align="center">Imagem do produto</TableCell>
+                <TableCell align="center">Imagem da categoria</TableCell>
                 <TableCell>Editar</TableCell>
                 <TableCell align="center">Deletar</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.map((product) => (
+              {categories.map((category) => (
                 <TableRow
-                  key={product.id}
+                  key={category.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {product.name}
-                  </TableCell>
-                  <TableCell>{formatCurrency(product.price)}</TableCell>
-                  <TableCell align="center">
-                    {product.offer ? (
-                      <CheckCircleOutlineOutlinedIcon
-                        style={{ color: '#228B22' }}
-                      />
-                    ) : (
-                      <CancelOutlinedIcon style={{ color: '#CC1717' }} />
-                    )}
+                    {category.name}
                   </TableCell>
                   <TableCell align="center">
-                    <C.Img src={product.url} alt={product.name} />
+                    <C.Img src={category.url} alt={category.name} />
                   </TableCell>
                   <TableCell>
                     <C.EditIcon
                       onClick={() =>
-                        navigate('/Editar-produto', {
-                          state: { product }
+                        navigate('/Editar-categoria', {
+                          state: { category }
                         })
                       }
                     />
                   </TableCell>
                   <TableCell align="center">
-                    <C.deleteIcon onClick={() => deleteProduct(product.id)} />
+                    <C.deleteIcon onClick={() => deleteCategory(category.id)} />
                   </TableCell>
                 </TableRow>
               ))}
@@ -106,4 +91,4 @@ function ListProducts() {
   )
 }
 
-export default ListProducts
+export default ListCategories
