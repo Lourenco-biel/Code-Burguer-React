@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router-dom'
-import ReactSelect from 'react-select'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -9,22 +8,31 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { motion } from 'framer-motion'
 import * as Yup from 'yup'
 
-import Button from '../../../components/Button'
 import { ErrorMenssage } from '../../../components/ErrorMenssage'
 import api from '../../../services/api'
 import * as C from './style'
 
 function EditProduct() {
-  const [fileName, setFileName] = useState(null)
   const [categories, setCategories] = useState([])
 
   const navigate = useNavigate()
   const location = useLocation()
+  const [selectedImage, setSelectedImage] = useState(null)
+
   const product = location.state.product
 
   useEffect(() => {
+    if (product?.url) {
+      setSelectedImage(product.url)
+    }
     getCategories()
   }, [])
+
+  function handleFileChange(event) {
+    const file = event.target.files[0]
+    const imageUrl = URL.createObjectURL(file)
+    setSelectedImage(imageUrl)
+  }
 
   async function getCategories() {
     const { data } = await api.get('categories')
@@ -80,71 +88,86 @@ function EditProduct() {
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
       <C.Container>
+        <C.Title>Edite seu produto</C.Title>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <C.Label>Nome</C.Label>
-            <C.Input
-              type="text"
-              {...register('name')}
-              defaultValue={product.name}
-            />
-            <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
-          </div>
-          <div>
-            <C.Label>Preço</C.Label>
-            <C.Input
-              type="number"
-              {...register('price')}
-              defaultValue={product.price}
-            />
-            <ErrorMenssage>{errors.price?.message}</ErrorMenssage>
-          </div>
-          <div>
-            <C.LabelUpload>
-              {fileName || (
-                <>
-                  <CloudUploadIcon />
-                  Carregue a imagem do produto
-                </>
-              )}
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                {...register('file')}
-                onChange={(e) => setFileName(e.target.files[0]?.name)}
-              />
-            </C.LabelUpload>
-            <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
-          </div>
+          <C.ContainerLeft>
+            <div>
+              <C.LabelUpload image={selectedImage}>
+                {selectedImage ? (
+                  <>
+                    <C.Image src={selectedImage} alt="foto-produto" />
+                    <CloudUploadIcon />
+                    Deseja mudar a imagem do produto?
+                  </>
+                ) : (
+                  <>
+                    <CloudUploadIcon />
+                    Carregue a imagem do produto
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  {...register('file')}
+                  onChange={(e) => handleFileChange(e)}
+                />
+              </C.LabelUpload>
+              <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
+            </div>
+          </C.ContainerLeft>
 
-          <div>
-            <Controller
-              name="category"
-              control={control}
-              defaultValue={product.category}
-              render={({ field }) => {
-                return (
-                  <ReactSelect
-                    {...field}
-                    options={categories}
-                    getOptionLabel={(cat) => cat.name}
-                    placeholder="...Escolha a categoria"
-                    defaultValue={product.category}
-                  />
-                )
-              }}
-            ></Controller>
-            <ErrorMenssage>{errors.category?.message}</ErrorMenssage>
-          </div>
-          <C.ContainerInput>
-            <input
-              type="checkbox"
-              defaultChecked={product.offer}
-              {...register('offer')}
-            />
-            <C.Label>Produto em oferta?</C.Label>
-          </C.ContainerInput>
-          <C.ButtonStyle>Editar produto</C.ButtonStyle>
+          <C.ContainerRight>
+            <div>
+              <C.Label>Nome</C.Label>
+              <C.Input
+                type="text"
+                {...register('name')}
+                defaultValue={product.name}
+              />
+              <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
+            </div>
+            <div>
+              <C.Label>Preço</C.Label>
+              <C.Input
+                type="number"
+                {...register('price')}
+                defaultValue={product.price}
+              />
+              <ErrorMenssage>{errors.price?.message}</ErrorMenssage>
+            </div>
+            <div>
+              <Controller
+                name="category"
+                control={control}
+                defaultValue={product.category}
+                render={({ field }) => {
+                  return (
+                    <C.ReactSelectStyle
+                      {...field}
+                      options={categories}
+                      getOptionLabel={(cat) => cat.name}
+                      placeholder="...Escolha a categoria"
+                      defaultValue={product.category}
+                    />
+                  )
+                }}
+              ></Controller>
+              <ErrorMenssage>{errors.category?.message}</ErrorMenssage>
+            </div>
+
+            <C.ContainerInput>
+              <input
+                type="checkbox"
+                defaultChecked={product.offer}
+                {...register('offer')}
+              />
+              <C.Label>Produto em oferta?</C.Label>
+            </C.ContainerInput>
+
+            <div>
+              <C.ButtonStyle>Editar produto</C.ButtonStyle>
+            </div>
+          </C.ContainerRight>
         </form>
       </C.Container>
     </motion.div>

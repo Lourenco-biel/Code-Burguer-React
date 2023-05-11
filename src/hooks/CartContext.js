@@ -11,6 +11,10 @@ export const CartProvider = ({ children }) => {
     await localStorage.setItem('codeburger:cartInfo', JSON.stringify(products))
   }
 
+  const deleteLocalStorage = async () => {
+    await localStorage.removeItem('codeburger:cartInfo')
+    setCartProducts([])
+  }
   const putProductInCart = async (product) => {
     const cartIndex = cartProducts.findIndex((prd) => prd.id === product.id)
 
@@ -77,7 +81,8 @@ export const CartProvider = ({ children }) => {
         cartProducts,
         increaseProducts,
         decreaseProducts,
-        deleteProducts
+        deleteProducts,
+        deleteLocalStorage
       }}
     >
       {children}

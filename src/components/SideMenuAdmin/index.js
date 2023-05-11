@@ -24,7 +24,7 @@ export default function SideMenuAdmin() {
         </C.ItemContainer>
       ))}
       <hr></hr>
-      <C.ItemContainer style={{ position: 'fixed', bottom: '30px' }}>
+      <C.ItemContainer style={{ position: 'fixed' }}>
         <LogoutIcon style={{ color: '#ffffff' }} />
         <C.ListLink to="/Login" onClick={logout}>
           Sair

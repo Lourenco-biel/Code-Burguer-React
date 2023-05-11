@@ -84,6 +84,7 @@ export default function Orders() {
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
       <C.Container>
+        <C.Title>Pedidos</C.Title>
         <C.Menu>
           {status?.map((status) => (
             <C.LinkMenu

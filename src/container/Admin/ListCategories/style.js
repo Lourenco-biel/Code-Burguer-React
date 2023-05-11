@@ -18,3 +18,8 @@ export const deleteIcon = styled(DeleteOutlineIcon)`
   cursor: pointer;
   color: #32305d;
 `
+export const Title = styled.h1`
+  font-size: 40px;
+  color: black;
+  padding: 0 0 30px 30px;
+`

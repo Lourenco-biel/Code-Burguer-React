@@ -13,8 +13,14 @@ import api from '../../../services/api'
 import * as C from './style'
 
 function NewCategory() {
-  const [fileName, setFileName] = useState(null)
   const navigate = useNavigate()
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  function handleFileChange(event) {
+    const file = event.target.files[0]
+    const imageUrl = URL.createObjectURL(file)
+    setSelectedImage(imageUrl)
+  }
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Digite o nome da categoria'),
@@ -66,31 +72,44 @@ function NewCategory() {
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
       <C.Container>
-        <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <C.Label>Nome</C.Label>
-            <C.Input type="text" {...register('name')} />
-            <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
-          </div>
+        <C.Title>Crie uma categoria</C.Title>
 
-          <div>
-            <C.LabelUpload>
-              {fileName || (
-                <>
-                  <CloudUploadIcon />
-                  Carregue a imagem da categoria
-                </>
-              )}
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                {...register('file')}
-                onChange={(e) => setFileName(e.target.files[0]?.name)}
-              />
-            </C.LabelUpload>
-            <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
-          </div>
-          <C.ButtonStyle>Adicionar categoria</C.ButtonStyle>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <C.ContainerLeft>
+            <div>
+              <C.LabelUpload image={selectedImage}>
+                {selectedImage ? (
+                  <>
+                    <C.Image src={selectedImage} alt="foto-produto" />
+                    <CloudUploadIcon />
+                    Deseja mudar a imagem da categoria?
+                  </>
+                ) : (
+                  <>
+                    <CloudUploadIcon />
+                    Carregue a imagem da categoria
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  {...register('file')}
+                  onChange={(e) => handleFileChange(e)}
+                />
+              </C.LabelUpload>
+              <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
+            </div>
+          </C.ContainerLeft>
+          <C.ContainerRight>
+            <div>
+              <C.Label>Nome</C.Label>
+              <C.Input type="text" {...register('name')} />
+              <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
+            </div>
+            <div>
+              <C.ButtonStyle>Adicionar categoria</C.ButtonStyle>
+            </div>
+          </C.ContainerRight>
         </form>
       </C.Container>
     </motion.div>

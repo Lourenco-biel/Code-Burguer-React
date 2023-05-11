@@ -47,6 +47,8 @@ function ListCategories() {
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
       <C.Container>
+        <C.Title>Edite sua categoria</C.Title>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>

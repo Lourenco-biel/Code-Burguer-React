@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -19,10 +19,13 @@ import {
   ContainerItens,
   SinginLink,
   Input,
-  Label
+  ContainerLoading,
+  Label,
+  Loading
 } from './styles'
 
 const Login = () => {
+  const [loading, setLoading] = useState(false)
   const { putUserData } = useUser()
   const navigate = useNavigate()
 
@@ -44,25 +47,33 @@ const Login = () => {
   })
 
   const onSubmit = async (clientData) => {
-    const { data } = await toast.promise(
-      api.post('sessions', {
-        email: clientData.email,
-        password: clientData.password
-      }),
-      {
-        pending: 'Verificando seus dados',
-        success: 'Seja bem vindo(a)!',
+    setLoading(true)
+    try {
+      const { data } = await toast.promise(
+        api.post('sessions', {
+          email: clientData.email,
+          password: clientData.password
+        }),
+        {
+          pending: 'Verificando seus dados',
+          success: 'Seja bem vindo(a)!'
+        }
+      )
+      putUserData(data)
+      setTimeout(() => {
+        if (data?.admin) {
+          navigate('/Pedidos')
+        } else {
+          navigate('/')
+        }
+        setLoading(false)
+      }, 1000)
+    } catch (error) {
+      await toast.promise(Promise.reject(error), {
         error: 'Verifique seu email e senha!'
-      }
-    )
-    putUserData(data)
-    setTimeout(() => {
-      if (data?.admin) {
-        navigate('/Pedidos')
-      } else {
-        navigate('/')
-      }
-    }, 1000)
+      })
+      setLoading(false)
+    }
   }
 
   return (
@@ -75,38 +86,50 @@ const Login = () => {
       }}
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
-      <Container>
-        <LoginImg src={LoginImage} alt="Login image" />
-        <ContainerItens>
-          <img src={Logo} alt="logo" />
-          <h1>Login</h1>
-          <form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <Label>Email</Label>
-            <Input
-              type="email"
-              {...register('email')}
-              error={errors.email?.message}
-            />
-            <ErrorMenssage>{errors.email?.message}</ErrorMenssage>
-            <Label>Senha</Label>
-            <Input
-              type="password"
-              {...register('password')}
-              error={errors.password?.message}
-            />
-            <ErrorMenssage>{errors.password?.message}</ErrorMenssage>
-            <Button type="submit" style={{ marginTop: 75, marginBottom: 25 }}>
-              Entrar
-            </Button>
-          </form>
-          <SinginLink>
-            Não possui conta?{' '}
-            <Link style={{ color: 'white' }} to="/Cadastro">
-              Sing Up
-            </Link>
-          </SinginLink>
-        </ContainerItens>
-      </Container>
+      {loading ? (
+        <ContainerLoading>
+          {' '}
+          <Loading></Loading>
+        </ContainerLoading>
+      ) : (
+        <Container>
+          <>
+            <LoginImg src={LoginImage} alt="Login image" />
+            <ContainerItens>
+              <img src={Logo} alt="logo" />
+              <h1>Login</h1>
+              <form noValidate onSubmit={handleSubmit(onSubmit)}>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  {...register('email')}
+                  error={errors.email?.message}
+                />
+                <ErrorMenssage>{errors.email?.message}</ErrorMenssage>
+                <Label>Senha</Label>
+                <Input
+                  type="password"
+                  {...register('password')}
+                  error={errors.password?.message}
+                />
+                <ErrorMenssage>{errors.password?.message}</ErrorMenssage>
+                <Button
+                  type="submit"
+                  style={{ marginTop: 75, marginBottom: 25 }}
+                >
+                  Entrar
+                </Button>
+              </form>
+              <SinginLink>
+                Não possui conta?{' '}
+                <Link style={{ color: 'white' }} to="/Cadastro">
+                  Sing Up
+                </Link>
+              </SinginLink>
+            </ContainerItens>
+          </>
+        </Container>
+      )}
     </motion.div>
   )
 }

@@ -33,3 +33,8 @@ export const LinkMenu = styled.a`
     props.isActiveStatus ? '2px solid #9758A6' : 'none'};
   padding-bottom: 5px;
 `
+export const Title = styled.h1`
+  font-size: 40px;
+  color: black;
+  padding: 0 0 30px 30px;
+`

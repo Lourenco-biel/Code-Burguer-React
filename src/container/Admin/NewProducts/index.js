@@ -15,14 +15,22 @@ import api from '../../../services/api'
 import * as C from './style'
 
 function NewProduct() {
-  const [fileName, setFileName] = useState(null)
+  const [file, setFile] = useState(null)
   const [categories, setCategories] = useState([])
   const navigate = useNavigate()
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  function handleFileChange(event) {
+    const file = event.target.files[0]
+    const imageUrl = URL.createObjectURL(file)
+    setSelectedImage(imageUrl)
+  }
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Digite o nome do produto'),
     price: Yup.string().required('Digite o preço do produto'),
     category: Yup.object().required('Escolha uma categoria'),
+    offer: Yup.boolean(),
     file: Yup.mixed()
       .test('required', 'Carregue um arquivo', (value) => {
         return value?.length > 0
@@ -50,6 +58,7 @@ function NewProduct() {
     productDataFormated.append('price', data.price)
     productDataFormated.append('category_id', data.category.id)
     productDataFormated.append('file', data.file[0])
+    productDataFormated.append('offer', data.offer)
 
     await toast.promise(api.post('products', productDataFormated), {
       pending: 'Criando novo produto',
@@ -61,6 +70,9 @@ function NewProduct() {
       navigate('/Listar-produtos')
     }, 2000)
   }
+  useEffect(() => {
+    console.log('file', selectedImage)
+  }, [selectedImage])
 
   useEffect(() => {
     async function getCategories() {
@@ -81,54 +93,73 @@ function NewProduct() {
       exit={{ opacity: 0, filter: 'blur(6px)', transition: { duration: 0.4 } }}
     >
       <C.Container>
+        <C.Title>Crie seu produto</C.Title>
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <C.Label>Nome</C.Label>
-            <C.Input type="text" {...register('name')} />
-            <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
-          </div>
-          <div>
-            <C.Label>Preço</C.Label>
-            <C.Input type="number" {...register('price')} />
-            <ErrorMenssage>{errors.price?.message}</ErrorMenssage>
-          </div>
-          <div>
-            <C.LabelUpload>
-              {fileName || (
-                <>
-                  <CloudUploadIcon />
-                  Carregue a imagem do produto
-                </>
-              )}
-              <input
-                type="file"
-                accept="image/png, image/jpeg"
-                {...register('file')}
-                onChange={(e) => setFileName(e.target.files[0]?.name)}
-              />
-            </C.LabelUpload>
-            <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
-          </div>
-
-          <div>
-            <Controller
-              name="category"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <ReactSelect
-                    {...field}
-                    options={categories}
-                    getOptionLabel={(cat) => cat.name}
-                    placeholder="...Escolha a categoria"
-                  />
-                )
-              }}
-            ></Controller>
-            <ErrorMenssage>{errors.category?.message}</ErrorMenssage>
-          </div>
-
-          <C.ButtonStyle>Adicionar produto</C.ButtonStyle>
+          <C.ContainerLeft>
+            <div>
+              <C.LabelUpload image={selectedImage}>
+                {selectedImage ? (
+                  <>
+                    <C.Image src={selectedImage} alt="foto-produto" />
+                    <CloudUploadIcon />
+                    Deseja mudar a imagem do produto?
+                  </>
+                ) : (
+                  <>
+                    <CloudUploadIcon />
+                    Carregue a imagem do produto
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  {...register('file')}
+                  onChange={(e) => handleFileChange(e)}
+                />
+              </C.LabelUpload>
+              <ErrorMenssage>{errors.file?.message}</ErrorMenssage>
+            </div>
+          </C.ContainerLeft>
+          <C.ContainerRight>
+            <div>
+              <C.Label>Nome</C.Label>
+              <C.Input type="text" {...register('name')} />
+              <ErrorMenssage>{errors.name?.message}</ErrorMenssage>
+            </div>
+            <div>
+              <C.Label>Preço</C.Label>
+              <C.Input type="number" {...register('price')} />
+              <ErrorMenssage>{errors.price?.message}</ErrorMenssage>
+            </div>
+            <div>
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <C.ReactSelectStyle
+                      {...field}
+                      options={categories}
+                      getOptionLabel={(cat) => cat.name}
+                      placeholder="...Escolha a categoria"
+                    />
+                  )
+                }}
+              ></Controller>
+              <ErrorMenssage>{errors.category?.message}</ErrorMenssage>
+              <C.ContainerInput>
+                <input
+                  type="checkbox"
+                  defaultChecked={categories.offer}
+                  {...register('offer')}
+                />
+                <C.Label>Produto em oferta?</C.Label>
+              </C.ContainerInput>
+            </div>
+            <div>
+              <C.ButtonStyle>Adicionar produto</C.ButtonStyle>
+            </div>
+          </C.ContainerRight>
         </form>
       </C.Container>
     </motion.div>

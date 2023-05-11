@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import Backgroud from '../../assets/backgrooud.svg'
+import loadingSvg from '../../assets/loading.svg'
 
 export const Container = styled.div`
   width: 100vw;
@@ -69,4 +70,18 @@ export const SinginLink = styled.p`
     cursor: pointer;
     text-decoration: underline;
   }
+`
+export const Loading = styled.div`
+  width: 24rem;
+  height: 15rem;
+  background: url(${loadingSvg}) no-repeat center center / contain;
+  z-index: 3;
+`
+
+export const ContainerLoading = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
