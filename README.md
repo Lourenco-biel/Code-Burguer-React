@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+<div align="center">
+  <br />
+  <img src="public/readme/hero.png" alt="Project Banner" />
+  <br />
+  <div>
+    <img alt="React" src="https://img.shields.io/badge/React-4c84f3?style=for-the-badge&logo=react&logoColor=white" />
+    <img alt="Material UI" src="https://img.shields.io/badge/Material--UI-007FFF?style=for-the-badge&logo=mui&logoColor=white" />
+    <img alt="Styled Components" src="https://img.shields.io/badge/styled--components-db7093?style=for-the-badge&logo=styled-components&logoColor=white" />
+    <img alt="React Router" src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white" />
+    <img alt="React Hook Form" src="https://img.shields.io/badge/React_Hook_Form-ec5990?style=for-the-badge&logo=reacthookform&logoColor=white" />
+    <img alt="Yup" src="https://img.shields.io/badge/Yup-5C2D91?style=for-the-badge&logoColor=white" />
+  </div>
+  <h3 align="center">🍔 Code Burguer — Admin Panel</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <div align="center">
+    A complete management system for restaurants and delivery apps
+  </div>
+</div>
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 📋 Table of Contents
 
-### `npm start`
+1. 🤖 [About the Project](#about)
+2. ⚙️ [Tech Stack](#tech-stack)
+3. 🚀 [Features](#features)
+4. 🧪 [Setup](#setup)
+5. 📸 [Screenshots](#screenshots)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🤖 <a name="about"></a>About the Project
 
-### `npm test`
+This is a modern admin panel for managing a digital burger shop. The system includes full CRUD functionality for orders, products, categories, banners, and users — all organized in a smooth, responsive interface.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## ⚙️ <a name="tech-stack"></a>Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **React 18**
+- **React Router DOM v6**
+- **Material UI**
+- **Styled Components**
+- **React Hook Form + Yup**
+- **Framer Motion**
+- **React Toastify**
+- **Axios**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🔋 <a name="features"></a>Features
 
-### `npm run eject`
+- ✅ Authentication with user roles
+- 🍔 Product, category and banner management (CRUD)
+- 📦 Order tracking by status
+- 👥 User and admin management
+- 📊 Dashboard with metrics and chart cards
+- 🎨 Modern UI using MUI components
+- 📱 Responsive layout
+- 🔔 Toast notifications for feedback
+- 💾 Axios integration for data persistence
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🤸 <a name="setup"></a>Setup
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Running the Project**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+bash
+npm run dev
 
-## Learn More
+Open [http://localhost:5173](http://localhost:5173/) in your browser to view the project.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Clone the project**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+git clone https://github.com/seu-usuario/code-burguer-react.git
+cd code-burguer-react
+```
