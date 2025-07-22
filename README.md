@@ -10,7 +10,7 @@
     <img alt="React Hook Form" src="https://img.shields.io/badge/React_Hook_Form-ec5990?style=for-the-badge&logo=reacthookform&logoColor=white" />
     <img alt="Yup" src="https://img.shields.io/badge/Yup-5C2D91?style=for-the-badge&logoColor=white" />
   </div>
-  <h3 align="center">🍔 Code Burguerl</h3>
+  <h3 align="center">🍔 Code Burguer</h3>
 
   <div align="center">
     A complete management system for restaurants and delivery apps
